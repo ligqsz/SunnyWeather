@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.ligq.sunnyweather.R
 import kotlinx.android.synthetic.main.fragment_place.*
 
@@ -45,6 +44,7 @@ class PlaceFragment : Fragment() {
             }
         }
 
+        //result返回是Repository#searchPlaces中emit(result)发送的结果
         viewModel.placeLiveData.observe(viewLifecycleOwner, { result ->
             val places = result.getOrNull()
             Log.d("placeFragment", "places:$places")

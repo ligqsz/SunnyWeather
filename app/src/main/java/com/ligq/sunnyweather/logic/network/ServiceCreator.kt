@@ -3,6 +3,9 @@ package com.ligq.sunnyweather.logic.network
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * 创建网络请求接口的实例类
+ */
 object ServiceCreator {
     private const val BASE_URL = "https://api.caiyunapp.com/"
     private val retrofit = Retrofit.Builder()

@@ -7,10 +7,23 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+/**
+ * 网络请求接口
+ */
 object SunnyWeatherNetwork {
+    /**
+     * 创建请求接口实例
+     */
     private val placeService = ServiceCreator.create<PlaceService>()
+
+    /**
+     * 进行网络请求，并处理请求异常情况
+     */
     suspend fun searchPlace(query: String) = placeService.searchPlace(query).await()
 
+    /**
+     * 扩展call一个await方法，创建一个协程，并统一处理异常情况
+     */
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
