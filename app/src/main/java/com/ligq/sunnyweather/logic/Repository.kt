@@ -1,6 +1,8 @@
 package com.ligq.sunnyweather.logic
 
 import androidx.lifecycle.liveData
+import com.ligq.sunnyweather.logic.dao.PlaceDao
+import com.ligq.sunnyweather.logic.model.Place
 import com.ligq.sunnyweather.logic.model.Weather
 import com.ligq.sunnyweather.logic.network.SunnyWeatherNetwork
 import kotlinx.coroutines.Dispatchers
@@ -59,4 +61,15 @@ object Repository {
             //发送结果给观察者，如activity，fragment
             emit(result)
         }
+
+    /**
+     * //todo 注意数据的读写不要放在主线程上，应该也是通过liveData的方式进行协程操作
+     */
+    fun savePlace(place: Place) {
+        PlaceDao.savePlace(place)
+    }
+
+    fun getSavedPlace() = PlaceDao.getPlace()
+
+    fun isPlaceSaved() = PlaceDao.isPlaceSaved()
 }

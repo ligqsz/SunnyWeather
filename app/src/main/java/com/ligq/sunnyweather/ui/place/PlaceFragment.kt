@@ -1,5 +1,6 @@
 package com.ligq.sunnyweather.ui.place
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,10 +11,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ligq.sunnyweather.R
+import com.ligq.sunnyweather.ui.weather.WeatherActivity
 import kotlinx.android.synthetic.main.fragment_place.*
 
 class PlaceFragment : Fragment() {
-    private val viewModel: PlaceViewModel by viewModels()
+    val viewModel: PlaceViewModel by viewModels()
     private lateinit var adapter: PlaceAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +27,17 @@ class PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (viewModel.isPlaceSaved()) {
+            val place = viewModel.getSavedPlace()
+            val intent = Intent(context, WeatherActivity::class.java).apply {
+                putExtra("location_lng", place.location.lng)
+                putExtra("location_lat", place.location.lat)
+                putExtra("place_name", place.name)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
         adapter = PlaceAdapter(this, viewModel.placeList)
         recyclerview.adapter = adapter
         searchPlaceEdit.addTextChangedListener { text ->
