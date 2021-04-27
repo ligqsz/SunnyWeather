@@ -15,11 +15,18 @@ object SunnyWeatherNetwork {
      * 创建请求接口实例
      */
     private val placeService = ServiceCreator.create<PlaceService>()
+    private val weatherService = ServiceCreator.create<WeatherService>()
 
     /**
      * 进行网络请求，并处理请求异常情况
      */
     suspend fun searchPlace(query: String) = placeService.searchPlace(query).await()
+
+    suspend fun getDailyWeather(lng: String, lat: String) =
+        weatherService.getRealDailyWeather(lng, lat).await()
+
+    suspend fun getRealtimeWeather(lng: String, lat: String) =
+        weatherService.getRealtimeWeather(lng, lat).await()
 
     /**
      * 扩展call一个await方法，创建一个协程，并统一处理异常情况
